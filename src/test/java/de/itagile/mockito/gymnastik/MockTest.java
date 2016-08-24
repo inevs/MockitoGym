@@ -1,30 +1,30 @@
 package de.itagile.mockito.gymnastik;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.verify;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatcher;
-import org.mockito.InOrder;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import static de.itagile.mockito.gymnastik.IsEven.isEven;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class MockTest {
 
-	@Mock
 	List<Integer> list;
-	@Mock
 	List<Integer> list2;
+
+	@Before
+	public void setUp() {
+		list = mock(List.class);
+		list2 = mock(List.class);
+	}
 
 	@Test
 	public void timesUsage() throws Exception {
@@ -53,10 +53,9 @@ public class MockTest {
 	}
 
 	@Test
-	@Ignore
 	public void ArgumentMatcherUsage() throws Exception {
 		foobar(list);
-		verify(list).add(Mockito.argThat(not(new IsEven())));
+		verify(list).add(Mockito.argThat(isEven()));
 	}
 
 	@Test
@@ -65,13 +64,6 @@ public class MockTest {
 		bar(list, list2);
 		inOrder.verify(list).add(Mockito.anyInt());
 		inOrder.verify(list2).add(Mockito.anyInt());
-	}
-
-	private final class IsEven extends ArgumentMatcher<Integer> {
-		@Override
-		public boolean matches(Object argument) {
-			return ((Integer) argument) % 2 == 0;
-		}
 	}
 
 	private void foo(List<Integer> list) {
