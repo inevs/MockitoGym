@@ -13,6 +13,8 @@ import static de.itagile.mockito.gymnastik.IsEven.isEven;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.*;
 
 public class MockTest {
@@ -29,19 +31,19 @@ public class MockTest {
 	@Test
 	public void timesUsage() throws Exception {
 		foo(list);
-		verify(list, Mockito.times(2)).add(Mockito.anyInt());
+		verify(list, times(2)).add(anyInt());
 	}
 
 	@Test
 	public void atLeastOnceUsage() throws Exception {
 		foo(list);
-		verify(list, Mockito.atLeastOnce()).add(Mockito.anyInt());
+		verify(list, atLeastOnce()).add(anyInt());
 	}
 
 	@Test
 	public void directlyArgumentCheckUsage() throws Exception {
 		foo(list);
-		verify(list, Mockito.atLeastOnce()).add(1);
+		verify(list, atLeastOnce()).add(1);
 	}
 
 	@Test
@@ -55,15 +57,15 @@ public class MockTest {
 	@Test
 	public void ArgumentMatcherUsage() throws Exception {
 		foobar(list);
-		verify(list).add(Mockito.argThat(isEven()));
+		verify(list).add(argThat(isEven()));
 	}
 
 	@Test
 	public void inOrderUsage() throws Exception {
 		InOrder inOrder = inOrder(list, list2);
 		bar(list, list2);
-		inOrder.verify(list).add(Mockito.anyInt());
-		inOrder.verify(list2).add(Mockito.anyInt());
+		inOrder.verify(list).add(anyInt());
+		inOrder.verify(list2).add(anyInt());
 	}
 
 	private void foo(List<Integer> list) {
